@@ -71,23 +71,27 @@ router.put('/notes/:noteId', async (req, res) => {
         note.dateUpdated = new Date();
 
         await note.save();
-        
+
         res.status(200).send(note);
     } catch (error) {
         res.status(500).send({ message: "Error updating note with id " + req.params.noteId });
     }
 });
 
-// //TODO - Delete a Note with noteId
-// //http://mongoosejs.com/docs/api.html#findbyidandremove_findByIdAndRemove
-// app.delete('/notes/:noteId', (req, res) => {
-//     // Validate request
-//     if(!req.body.content) {
-//         return res.status(400).send({
-//             message: "Note content can not be empty"
-//         });
-//     }
-//     //TODO - Write your code here to delete the note using noteid
-// });
+//TODO - Delete a Note with noteId
+//http://mongoosejs.com/docs/api.html#findbyidandremove_findByIdAndRemove
+router.delete('/notes/:noteId', async (req, res) => {
+    try {
+        // Validate request
+        const note = await NoteModel.findByIdAndDelete(req.params.noteId);
+        if (!note) {
+            return res.status(404).send({ message: "Note not found with id " + req.params.noteId });
+        }
+        //TODO - Write your code here to delete the note using noteid
+        res.send({ message: "Note deleted successfully!" });
+    } catch (error) {
+        res.status(500).send({ message: "Could not delete note with id " + req.params.noteId });
+    }
+});
 
 module.exports = router;
