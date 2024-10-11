@@ -19,22 +19,21 @@ router.post('/notes', async (req, res) => {
         await note.save();
         res.send(note);
     } catch (error) {
-        console.error("Error creating note:", error);
         res.status(500).send({ message: "Error creating note!" });
     }
 });
 
-// //TODO - Retrieve all Notes
-// //http://mongoosejs.com/docs/api.html#find_find
-// app.get('/notes', (req, res) => {
-//     // Validate request
-//     if(!req.body.content) {
-//         return res.status(400).send({
-//             message: "Note content can not be empty"
-//         });
-//     }
-//     //TODO - Write your code here to returns all note
-// });
+//TODO - Retrieve all Notes
+//http://mongoosejs.com/docs/api.html#find_find
+router.get('/notes', async (req, res) => {
+    //TODO - Write your code here to returns all note
+    try {
+        const notes = await NoteModel.find();
+        res.send(notes);
+    } catch (error) {
+        res.status(500).send({ message: "Error retrieving notes!" });
+    }
+});
 
 // //TODO - Retrieve a single Note with noteId
 // //http://mongoosejs.com/docs/api.html#findbyid_findById
