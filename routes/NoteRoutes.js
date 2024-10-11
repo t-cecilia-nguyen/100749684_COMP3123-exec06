@@ -35,17 +35,20 @@ router.get('/notes', async (req, res) => {
     }
 });
 
-// //TODO - Retrieve a single Note with noteId
-// //http://mongoosejs.com/docs/api.html#findbyid_findById
-// app.get('/notes/:noteId', (req, res) => {
-//     // Validate request
-//     if(!req.body.content) {
-//         return res.status(400).send({
-//             message: "Note content can not be empty"
-//         });
-//     }
-//     //TODO - Write your code here to return onlt one note using noteid
-// });
+//TODO - Retrieve a single Note with noteId
+//http://mongoosejs.com/docs/api.html#findbyid_findById
+router.get('/notes/:noteId', async (req, res) => {
+    //TODO - Write your code here to return onlt one note using noteid
+    try {
+        const note = await NoteModel.findById(req.params.noteId);
+        if (!note) {
+            return res.status(404).send({ message: "Note not found with id " + req.params.noteId });
+        }
+        res.send(note);
+    } catch (error) {
+        res.status(500).send({ message: "Error retrieving note with id " + req.params.noteId });
+    }
+});
 
 // //TODO - Update a Note with noteId
 // //http://mongoosejs.com/docs/api.html#findbyidandupdate_findByIdAndUpdate
